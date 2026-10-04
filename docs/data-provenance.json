@@ -1,0 +1,35 @@
+{
+  "retrieved": "2026-10-04",
+  "warning": "Community mirror snapshot; some prices require current-version verification.",
+  "files": [
+    {
+      "file": "Fish.json",
+      "sha": "306b47bc385f5e604ee14f80a2d2ef9115eb9c3f",
+      "bytes": 185338,
+      "url": "https://github.com/Norviah/animal-crossing/blob/master/json/data/Fish.json"
+    },
+    {
+      "file": "Other.json",
+      "sha": "6584cc3657cbb02b0b0de8c69764f08d89c4a417",
+      "bytes": 578792,
+      "url": "https://github.com/Norviah/animal-crossing/blob/master/json/data/Other.json"
+    },
+    {
+      "file": "Recipes.json",
+      "sha": "c79a6394fc48d8097f153798008ffceb53521895",
+      "bytes": 1769745,
+      "url": "https://github.com/Norviah/animal-crossing/blob/master/json/data/Recipes.json"
+    },
+    {
+      "file": "Sea Creatures.json",
+      "sha": "f6d6fcaa398e6cdf8e8f37adec5a179e030bb250",
+      "bytes": 100474,
+      "url": "https://github.com/Norviah/animal-crossing/blob/master/json/data/Sea%20Creatures.json"
+    }
+  ],
+  "gameVersion": {
+    "version": "3.0.3",
+    "checkedAt": "2026-10-04",
+    "source": "https://support.nintendo.com/jp/switch/software_support/acbaa/index.html"
+  }
+}

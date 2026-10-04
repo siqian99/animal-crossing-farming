@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="原创双狸头像与作物料理小装饰">
+  <rect width="256" height="256" rx="48" fill="#FFF5D6"/>
+  <g stroke="#006348" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Small carrot and wheat; the heads remain the main image. -->
+    <g transform="translate(54 39) rotate(-24)" stroke-width="4">
+      <path d="M-12 4Q0-5 12 4L0 34Z" fill="#FFC447"/>
+      <path d="M0 3V-12M0-4l-10-8M0-4l10-8M-6 14h7M-3 23h5" fill="none"/>
+    </g>
+    <g transform="translate(196 40) rotate(22)" stroke-width="4">
+      <path d="M0-15V29" fill="none"/>
+      <path d="M0-5Q-19-20-14-4Q-10 4 0 5M0 7Q-19-8-14 8Q-10 16 0 17M0-5Q19-20 14-4Q10 4 0 5M0 7Q19-8 14 8Q10 16 0 17" fill="#FFC447"/>
+    </g>
+    <path d="m112 41 4-8 4 8-4 8z" fill="#FFC447" stroke="none"/>
+    <circle cx="145" cy="58" r="4" fill="#006348" stroke="none"/>
+    <circle cx="38" cy="99" r="23" fill="#FFC447"/>
+    <circle cx="107" cy="99" r="23" fill="#FFC447"/>
+    <circle cx="149" cy="99" r="23" fill="#FFC447"/>
+    <circle cx="218" cy="99" r="23" fill="#FFC447"/>
+    <ellipse cx="73" cy="140" rx="57" ry="52" fill="#FFC447"/>
+    <ellipse cx="183" cy="140" rx="57" ry="52" fill="#FFC447"/>
+    <path d="M22 128c27-24 76-24 102 0l-10 34c-16 1-26-10-41-10s-25 11-41 10zM132 128c27-24 76-24 102 0l-10 34c-16 1-26-10-41-10s-25 11-41 10z" fill="#006348" stroke="none"/>
+    <path d="m45 138 7-6 7 6m28 0 7-6 7 6m54 0 7-6 7 6m28 0 7-6 7 6" fill="none" stroke="#FFF5D6"/>
+    <path d="m66 154 7 6 7-6m96 0 7 6 7-6" fill="#006348"/>
+    <path d="M62 174q11 9 22 0m88 0q11 9 22 0" fill="none" stroke-width="4"/>
+    <path d="m33 107 4-12 8 3m171 9-4-12-8 3" stroke-width="3" fill="none"/>
+    <!-- A tiny soup bowl and bread, independently drawn. -->
+    <g stroke-width="4">
+      <path d="M86 216h65q-4 20-32 20t-33-20Z" fill="#FFC447"/>
+      <ellipse cx="119" cy="216" rx="33" ry="6" fill="#FFF5D6"/>
+      <path d="M109 203q-5-5 0-10m17 10q-5-5 0-10" fill="none"/>
+      <path d="M174 220q0-14 17-14t17 14v10h-34Z" fill="#FFC447"/>
+      <path d="m185 214-3 7m13-7-3 7" fill="none"/>
+    </g>
+    <path d="m48 213 4-7 4 7-4 7z" fill="#FFC447" stroke="none"/>
+  </g>
+</svg>

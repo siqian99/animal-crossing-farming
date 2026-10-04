@@ -1,0 +1,15 @@
+{
+  "name": "acnh-cooking-profit",
+  "version": "0.2.1",
+  "private": true,
+  "description": "无人岛料理收益管家：动森库存料理与农田种植收益规划",
+  "author": "Vickie",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node test-optimizer.cjs"
+  }
+}

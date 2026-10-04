@@ -1,0 +1,7 @@
+{
+  "package": "highs",
+  "version": "1.15.3",
+  "registry": "https://registry.npmjs.org/highs/-/highs-1.15.3.tgz",
+  "integrity": "sha512-5rzjBlAkqRxr7FOv+iZjxF8nNfKsEt8uOaP3S6gls6yRf4+Jv4BqBIE3iPFsgfOHutQBMNxRE9jWhxRAM7Oycw==",
+  "source": "https://github.com/lovasoa/highs-js"
+}

@@ -23,7 +23,7 @@
 
 ## 用与实习小金库相同的 Netlify Drop 发布
 
-1. 解压 `acnh-cooking-profit-v0.2.1-web.zip`，得到 `acnh-cooking-profit-web` 文件夹；打开后直接能看到 `index.html`。
+1. 解压 `acnh-cooking-profit-v0.2.5-web.zip`，得到 `acnh-cooking-profit-web` 文件夹；打开后直接能看到 `index.html`。
 2. 登录自己的 Netlify 账户，打开 [Netlify Drop](https://app.netlify.com/drop)。
 3. 上传整个 `acnh-cooking-profit-web` 文件夹，等待部署成功；该项目无需运行构建命令。
 4. 使用返回的 HTTPS 网站地址在手机打开，也可以把该网址发给朋友。

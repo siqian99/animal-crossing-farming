@@ -29,10 +29,30 @@ r=O.solve(data,{inventory:{tomato:3,flour:1},owned:[puree.id,pasta.id],settings,
 r=O.solve(data,{inventory:{sugarcane:5},owned:[sugar.id],settings,mode:'profit'});assert.equal(r.plan[0].intermediate,false);assert.equal(r.plan[0].directQuantity,10);assert.equal(r.plan[0].stockTracked,false);assert.equal(r.revenue,2100);
 for(const retention of [.5,.75,.92,.99,1]){r=O.solve(data,{inventory,owned,settings:{...settings,retention},mode:'easy'});assert.ok(r.revenue>=Math.ceil(57380*retention));assert.equal(r.provenOptimal,true);}
 const P=require('./dist/progress.js');const result={...r,tab:'inventory',inventory};const ids=new Set(owned),session=P.normalizeSession({result,done:{[r.plan[0].id]:r.plan[0].quantity}},ids);assert.ok(session);assert.equal(session.done[r.plan[0].id],r.plan[0].quantity);
+const bulkFlour={outputQuantity:10,count:21,quantity:210},bulkDish={outputQuantity:1,count:21,quantity:21};
+assert.equal(P.batchSize(bulkFlour),100);assert.equal(P.batchSize(bulkDish),10);
+for(const [step,atBoundary,belowBoundary] of [[bulkFlour,110,120],[bulkDish,11,12]]){assert.equal(P.canAddBatch(step,atBoundary),true);assert.equal(P.canAddBatch(step,belowBoundary),false);assert.equal(P.canAddBatch(step,step.quantity),false);}
+assert.equal(P.canAddBatch(bulkFlour,111),false);
+assert.equal(data.recipes.filter(r=>r.outputQuantity!==1).every(r=>['flour','whole-wheat flour','sugar','brown sugar'].includes(r.name)&&r.outputQuantity===10),true);
 assert.equal(P.validDone(sugarStep,10),true);assert.equal(P.validDone(sugarStep,3),false);assert.equal(P.validDone(sugarStep,30),false);
 assert.equal(P.normalizeSession({result:{...result,plan:[{...result.plan[0],outputQuantity:'10\" autofocus'}]}},ids),null);
 assert.equal(P.signature({inventory:{wheat:2,tomato:1},owned:[2,1],settings:{hot:['b','a']}}),P.signature({inventory:{tomato:1,wheat:2},owned:[1,2],settings:{hot:['a','b']}}));
 assert.equal(P.signature({inventory:{},owned:[],settings:{channel:'shop',cj:false,hot:[]}}),P.signature({settings:{hot:[],cj:false,channel:'shop'},owned:[],inventory:{}}));
+// Execute the application's state initialization/save code against isolated storage.
+const vm=require('node:vm'),fs=require('node:fs'),app=fs.readFileSync('./dist/app.js','utf8');
+new vm.Script(app);
+const stateCode=app.slice(0,app.indexOf('  let tab='))+app.slice(app.indexOf('  function normalize('),app.indexOf('  function toast('))+'globalThis.stateTest={state,save};})();';
+function openState(search,record){
+  let reads=0,writes=0,stored=record;
+  const nodes={};const sandbox={HARVEST_DATA:data,HarvestProgress:P,URLSearchParams,location:{search},localStorage:{getItem(){reads++;return stored;},setItem(k,v){assert.equal(k,'harvest-ledger');writes++;stored=v;}},document:{querySelector(k){return nodes[k]||= {};}}};
+  vm.runInNewContext(stateCode,sandbox);
+  return {...sandbox.stateTest,reads:()=>reads,writes:()=>writes,stored:()=>stored};
+}
+const emptyState=openState('',null);assert.ok(Object.values(emptyState.state.inventory).every(q=>q===0));assert.equal(emptyState.state.owned.length,0);
+const original=JSON.stringify({...emptyState.state,inventory:{wheat:17,sugarcane:8},owned:[flour.id],sessions:{inventory:session}});
+const legacyLink=openState('?demo=1',original);assert.equal(legacyLink.reads(),1);assert.equal(legacyLink.state.inventory.wheat,17);assert.equal(legacyLink.state.owned.length,1);assert.equal(legacyLink.state.sessions.inventory.done[r.plan[0].id],r.plan[0].quantity);
+const personal=openState('',original);assert.equal(personal.state.inventory.wheat,17);assert.equal(personal.state.owned.length,1);assert.equal(personal.state.sessions.inventory.done[r.plan[0].id],r.plan[0].quantity);assert.equal(personal.save(),true);assert.equal(personal.writes(),1);
+console.log('Passed empty defaults, persisted ownership/progress and legacy example links retaining personal records.');
 console.log('Passed unused sugar/puree accounting, processing order, retention options and saved progress validation.');
 console.log('Passed 40 brute-force comparisons and 12 material, pricing, ownership and land cases.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

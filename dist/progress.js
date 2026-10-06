@@ -1,6 +1,8 @@
 /* Progress uses produced item counts, never subtracts from entered inventory. */
 (() => {
   const unit=p=>p.outputQuantity||p.quantity/p.count||1;
+  const batchSize=p=>unit(p)*10;
+  const canAddBatch=(p,q)=>validDone(p,q)&&p.quantity-q>=batchSize(p);
   function validDone(p,q){return Number.isSafeInteger(q)&&q>=0&&q<=p.quantity&&q%unit(p)===0;}
   function normalizeSession(s,ids){
     if(!s?.result||!Array.isArray(s.result.plan)||!['inventory','farm'].includes(s.result.tab)||!Number.isFinite(s.result.revenue))return null;
@@ -17,5 +19,5 @@
     for(const p of result.plan){const repeats=(done[p.id]||0)/unit(p);for(const [n,q] of Object.entries(p.ingredients))stock[n]=(stock[n]||0)-q*repeats;stock[p.name]=(stock[p.name]||0)+(done[p.id]||0);}
     return stock;
   }
-  const api={unit,validDone,normalizeSession,signature,materialBalance};globalThis.HarvestProgress=api;if(typeof module!=='undefined')module.exports=api;
+  const api={unit,batchSize,canAddBatch,validDone,normalizeSession,signature,materialBalance};globalThis.HarvestProgress=api;if(typeof module!=='undefined')module.exports=api;
 })();

@@ -20,3 +20,36 @@
 #item-info .info-row b{text-align:right}
 #item-info .button-row{margin-top:14px}
 #item-info .secondary{display:inline-block;text-decoration:none}
+
+/* 年度时令日历 */
+.season-calendar{margin-top:12px}
+.season-calendar summary{cursor:pointer;font-size:12px;font-weight:750;color:var(--green);list-style:none;display:inline-block;border:1px dashed var(--green);border-radius:12px;padding:5px 12px;background:var(--cream)}
+.season-calendar summary::-webkit-details-marker{display:none}
+.season-calendar summary::after{content:'▾';margin-left:6px;font-size:10px}
+.season-calendar[open] summary{border-style:solid;background:#FFF0DD}
+.season-calendar[open] summary::after{content:'▴'}
+.season-calendar .hint{margin:10px 0 0}
+.calendar-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+@media(min-width:640px){.calendar-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:980px){.calendar-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cal-cell{background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:9px 8px;min-width:0}
+.cal-cell.current{border:2px solid var(--green);background:#FFF0DD}
+.cal-cell h4{margin:0 0 7px;font-size:12px;color:var(--green)}
+.cal-cell h4 em{font-style:normal;font-size:10px;font-weight:750;background:var(--green);color:var(--cream);border-radius:8px;padding:1px 6px;margin-left:5px;vertical-align:1px}
+.cal-chips{display:flex;flex-wrap:wrap;gap:4px}
+.cal-chip{background:#fff;border:1px solid var(--green);border-radius:12px;padding:2px 7px;font-size:10.5px;font-weight:600;color:var(--green)}
+.cal-chip:hover{background:#FFF0DD}
+.cal-none{font-size:10.5px;color:var(--muted)}
+
+/* 料理手册收集进度条 */
+.collect-progress{display:flex;align-items:center;gap:10px;margin:10px 0 12px}
+.collect-track{flex:1;height:10px;background:#FFE4C4;border:1px solid var(--green);border-radius:6px;overflow:hidden;min-width:0}
+#collect-fill{height:100%;background:linear-gradient(90deg,var(--green),#3FA184);border-radius:6px;min-width:0;transition:width .25s ease}
+.collect-progress .hint{flex:none;font-size:11px;font-weight:700;margin:0}
+
+/* 手机端底部固定计算按钮 */
+@media(max-width:780px){
+  #calculate{position:fixed;left:14px;right:14px;bottom:14px;z-index:5;margin:0;box-shadow:0 6px 18px rgba(0,99,72,.3)}
+  main{padding-bottom:92px}
+  #toast{bottom:88px}
+}

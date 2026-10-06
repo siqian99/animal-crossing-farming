@@ -1,0 +1,22 @@
+/* 兔兔版主题：丰收厨房。在原 style-v2.css 基础上覆盖配色并新增组件样式，
+   保留 --green 墨绿描边以和作物图标的画风一致。 */
+:root{--yellow:#FFD9B4;--cream:#FFF7EE;--paper:var(--yellow);--card:var(--cream)}
+.card{box-shadow:0 4px 14px rgba(0,99,72,.05)}
+.recipe:not(.owned):hover{background:#FFF0DD}
+.season-strip{border-top:1px dashed var(--green);margin-top:18px;padding-top:14px}
+.season-strip h3{margin:0 0 9px}
+.season-chips{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.season-chip{background:var(--cream);border:1px solid var(--green);border-radius:20px;padding:6px 11px;font-size:12px;font-weight:650;color:var(--green)}
+.season-chip:hover{background:#FFF0DD}
+.season-chip.last{background:#FFC894;border-width:2px}
+.season-chip.last span{margin-left:6px;font-size:10px}
+.season-chip.back{border-style:dashed;background:transparent}
+.season-note{font-size:11px;font-weight:700;margin-left:5px}
+.wiki-link{flex:none;margin-left:7px;font-size:11px;font-weight:750;color:var(--green);text-decoration:none;border:1px solid var(--green);border-radius:7px;padding:2px 5px}
+.wiki-link:hover{background:var(--cream)}
+.item-link{background:none;border:0;padding:0;font:inherit;color:inherit;font-weight:650;text-decoration:underline dotted;text-underline-offset:3px}
+#item-info .info-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;margin:9px 0;border-bottom:1px dashed var(--green);padding-bottom:8px}
+#item-info .info-row span{flex:none;color:rgba(0,99,72,.75)}
+#item-info .info-row b{text-align:right}
+#item-info .button-row{margin-top:14px}
+#item-info .secondary{display:inline-block;text-decoration:none}

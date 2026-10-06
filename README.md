@@ -2,7 +2,7 @@
 
 《集合啦！动物森友会》的非官方料理与种植收益工具。输入食材数量、已学配方或农田面积，计算如何安排料理与种植，让收成赚更多铃钱。
 
-**[打开网页版](https://brilliant-speculoos-a263e0.netlify.app/)** · **[反馈问题](https://github.com/VickieZhou/acnh-cooking-profit/issues)**
+**[打开网页版](https://brilliant-speculoos-a263e0.netlify.app/)** · **[反馈问题](https://github.com/siqian99/animal-crossing-farming/issues)**
 
 可在手机和电脑浏览器中使用，无需注册。计算在浏览器中完成，个人记录保存在当前设备。
 
@@ -54,8 +54,8 @@
 下载仓库：点击 **Code → Download ZIP** 并解压，或使用 Git：
 
 ```sh
-git clone https://github.com/VickieZhou/acnh-cooking-profit.git
-cd acnh-cooking-profit
+git clone https://github.com/siqian99/animal-crossing-farming.git
+cd animal-crossing-farming
 ```
 
 需要 Node.js 20 或更新版本：
@@ -103,7 +103,7 @@ npm test
 
 验证覆盖整数规划与穷举比较、库存与土地限制、出售条件、加工余料和进度校验。算法细节见 [ALGORITHM.md](docs/ALGORITHM.md)。
 
-欢迎提交 [Issue](https://github.com/VickieZhou/acnh-cooking-profit/issues) 或 Pull Request。报告配方或售价问题时，请提供料理名称、游戏版本、出售条件及实际数据；请勿公开个人备份文件。
+欢迎提交 [Issue](https://github.com/siqian99/animal-crossing-farming/issues) 或 Pull Request。报告配方或售价问题时，请提供料理名称、游戏版本、出售条件及实际数据；请勿公开个人备份文件。
 
 ## 数据来源与鸣谢
 
@@ -122,7 +122,9 @@ npm test
 
 ## 作者与许可
 
-作者：[Vickie](https://github.com/VickieZhou) · 反馈邮箱：[zhouyy0113@126.com](mailto:zhouyy0113@126.com)
+原作者：[Vickie](https://github.com/VickieZhou) · 反馈邮箱：[zhouyy0113@126.com](mailto:zhouyy0113@126.com)
+
+本仓库基于原项目 [acnh-cooking-profit](https://github.com/VickieZhou/acnh-cooking-profit) 修改维护。
 
 原创程序、文档与图标采用 [MIT 许可证](LICENSE)，欢迎在保留许可声明的前提下使用、修改和开发；第三方资料保留各自条款。
 

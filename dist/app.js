@@ -183,6 +183,6 @@
   guide.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeGuide();}else if(e.key==='Tab'){const buttons=[...guidePanel.querySelectorAll('button')].filter(b=>!b.disabled),first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
   document.querySelector('#clear-recipes-confirm').addEventListener('close',e=>{if(e.target.returnValue!=='clear')return;state.owned=[];invalidate();render();toast('已取消全部配方。');});
   document.querySelector('#about-open').onclick=()=>document.querySelector('#about').showModal();
-  const stats=document.querySelector('#data-stats');if(stats)stats.textContent=`价格核验：141 个配方中 ${data.recipes.filter(r=>r.priceSourceUrl).length} 个已逐条核对 Nookipedia 价格（附来源链接），其余参考社区数据表与授权价格表，部分尚待当前版本核验。`;
+  const stats=document.querySelector('#data-stats');if(stats)stats.textContent=`价格核验：141 个配方已全部逐条核对 Nookipedia 售价，每个配方附来源链接。`;
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});result=state.sessions[tab]?.result||null;render();if(!state.guideSeen)openGuide();
 })();

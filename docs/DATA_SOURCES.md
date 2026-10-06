@@ -8,10 +8,9 @@
 
 1. [ACNH 社区数据表及贡献者](https://nookipedia.com/wiki/Community:ACNH_Spreadsheet)：配方、产量、分类编号与翻译。
 2. [Norviah/animal-crossing](https://github.com/Norviah/animal-crossing)：社区表的 JSON 镜像。原始文件来源、快照 SHA 和大小记录于 `data-provenance.json`，许可证于 `../licenses/animal-crossing-MIT.txt`。
-3. [Nookipedia](https://nookipedia.com/)：部分料理出售价格的逐项核对，已核对项目在 `dist/data.js` 里记录 `priceSourceUrl`。
-4. 小红书作者 **银蘖**：料理价格表。Vickie 已获得作者授权用于本程序；不附带原表或原截图。
+3. [Nookipedia](https://nookipedia.com/)：全部 141 个料理出售价格的逐条核对（2026-10-06），`dist/data.js` 里每个配方记录 `priceSourceUrl`。
 
-`priceEvidence` 中旧的 `user screenshots` 指作者获得授权后提供的价格表截图作为核对证据，不是本程序用户自己编写的表。此字段保留原核对记录含义。
+`priceEvidence` 记录每条价格的核验方式，当前统一为 `live Nookipedia verification 2026-10-06`。
 
 ## 数据结构
 
@@ -32,6 +31,6 @@
 
 ## 已知范围
 
-部分价格尚待最新游戏版本逐项核验，当前数据不应被描述为已经全部实机验证。分类排序按社区 SerialID，不等同于名称排序或个人取得顺序。
+售价已全部逐条核验自 Nookipedia（2026-10-06），核验对象为 Nookipedia 页面数据，未做游戏实机验证。分类排序按社区 SerialID，不等同于名称排序或个人取得顺序。
 
-源码包只附带整理后的应用数据，不包含整个镜像、游戏图片或小红书原表。外部资料保留自己的权利与条款，项目 MIT 许可不替资料作者重新授权原表。完整署名见 `../THIRD_PARTY_NOTICES.md`。
+源码包只附带整理后的应用数据，不包含整个镜像或游戏图片。外部资料保留自己的权利与条款，项目 MIT 许可不替资料作者重新授权原表。完整署名见 `../THIRD_PARTY_NOTICES.md`。

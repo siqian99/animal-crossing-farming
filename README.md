@@ -107,13 +107,13 @@ npm test
 
 ## 数据来源与鸣谢
 
-感谢小红书作者 **银蘖** 授权料理价格表用于本程序。仓库不附带原表或截图，该授权不代表原表采用本项目的开源许可证。
+料理售价已全部逐条核验自 [Nookipedia](https://nookipedia.com/)（2026-10-06），仓库不附带任何第三方价格表。
 
 配方及翻译参考 [ACNH 社区数据表](https://nookipedia.com/wiki/Community:ACNH_Spreadsheet)、[Norviah/animal-crossing](https://github.com/Norviah/animal-crossing) 和 [Nookipedia](https://nookipedia.com/)。计算使用 [HiGHS](https://highs.dev/)。完整来源及第三方条款见 [DATA_SOURCES.md](docs/DATA_SOURCES.md) 与 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## 计算范围
 
-收益以输入条件和内置数据为准，部分价格仍待逐项实机核验。限时计算未证明最优时，界面会标明当前方案状态。
+收益以输入条件和内置数据为准，售价已全部逐条核验自 Nookipedia，未做游戏实机核验。限时计算未证明最优时，界面会标明当前方案状态。
 
 - 只计算料理与加工原料，不包含其他 DIY 家具或酒店兑换。
 - 农田按每轮稳定收获计算，不扣除一次性种苗支出，也不估算初次生长与浇水时间。

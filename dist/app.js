@@ -18,10 +18,10 @@
   }
   function save(){
     let saved=true;
-    try{localStorage.setItem('harvest-ledger',JSON.stringify(state));}catch{saved=false;toast('本机存储不可用，请导出备份保存。');}
+    try{localStorage.setItem('harvest-ledger',JSON.stringify(state));}catch{saved=false;toast('本机存储不可用，进度无法保存。');}
     document.querySelector('#owned-count').textContent=state.owned.length;
     const status=document.querySelector('#recipe-save-status');
-    if(status)status.textContent=saved?'已自动保存到本机':'保存未成功，请导出备份';
+    if(status)status.textContent=saved?'已自动保存到本机':'保存未成功，请检查浏览器设置';
     return saved;
   }
   function toast(s){const e=document.querySelector('#toast');e.textContent=s;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),3500);}
@@ -134,7 +134,7 @@
   const guideSteps=[
     {tab:'recipes',target:'.wide-card',title:'先勾选已有料理手册',text:'「我的料理手册」勾选已学会的料理手册。未全图鉴友好。与游戏内排列顺序一致，支持搜索。'},
     {tab:'inventory',target:'.layout > .card:first-child',title:'解决问题一：手里的原料，怎么做料理最赚钱？',text:'「库存原料」填写甘蔗、番茄等数量，可选择“收益最高”或“省制作批次”不同计算方式。右上角「岛屿设置」可选双倍料理和省制作批次的保留收入比例。'},
-    {tab:'inventory',target:'#result',title:'边做边勾，卖完回来接着做',text:'背包装不下所有料理，卖完忘记进度？料理清单可打勾，也可记录部分进度。进度在本机自动保存，刷新和切换页面均保存。使用说明里可导出备份。'},
+    {tab:'inventory',target:'#result',title:'边做边勾，卖完回来接着做',text:'背包装不下所有料理，卖完忘记进度？料理清单可打勾，也可记录部分进度。进度在本机自动保存，刷新和切换页面均保存。'},
     {tab:'farm',target:'.layout > .card:first-child',title:'解决问题二：固定大小的地，怎么种作物最赚钱？',text:'「农田分配」填写土地格数和预计每株产量（预计浇水次数）。还可设置各作物最低株数，得到最优植株分配与料理方案。'}
   ];
   let guideActive=false,guideFrame=0,guideTarget=null,guideOldOverflow='';
@@ -182,8 +182,7 @@
   document.querySelector('#guide-close').onclick=closeGuide;
   guide.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeGuide();}else if(e.key==='Tab'){const buttons=[...guidePanel.querySelectorAll('button')].filter(b=>!b.disabled),first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
   document.querySelector('#clear-recipes-confirm').addEventListener('close',e=>{if(e.target.returnValue!=='clear')return;state.owned=[];invalidate();render();toast('已取消全部配方。');});
-  document.querySelector('#about-open').onclick=()=>document.querySelector('#about').showModal();document.querySelector('#backup-export').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='兔兔的动森小助手-备份.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};document.querySelector('#backup-import').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>1000000)throw new Error();const parsed=JSON.parse(await file.text());if(parsed.version!==1||!parsed.inventory||!Array.isArray(parsed.owned))throw new Error();state=normalize(parsed);result=state.sessions[tab]?.result||null;save();render();document.querySelector('#about').close();toast('备份已导入');}catch{toast('备份格式不正确，请选择本工具导出的 JSON 文件。');}e.target.value='';};
-  document.querySelector('#share-link').onclick=async()=>{const url=location.origin+location.pathname;try{if(navigator.share)await navigator.share({title:'兔兔的动森小助手',text:'动森料理赚多多，记录每次制作进度。',url});else{await navigator.clipboard.writeText(url);toast('应用链接已复制，不包含你的个人记录。');}}catch{toast('分享未完成，可复制浏览器中的网址。');}};
+  document.querySelector('#about-open').onclick=()=>document.querySelector('#about').showModal();
   const stats=document.querySelector('#data-stats');if(stats)stats.textContent=`价格核验：141 个配方中 ${data.recipes.filter(r=>r.priceSourceUrl).length} 个已逐条核对 Nookipedia 价格（附来源链接），其余参考社区数据表与授权价格表，部分尚待当前版本核验。`;
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});result=state.sessions[tab]?.result||null;render();if(!state.guideSeen)openGuide();
 })();

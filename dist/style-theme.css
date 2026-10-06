@@ -1,4 +1,4 @@
-/* 兔兔版主题：丰收厨房。在原 style-v2.css 基础上覆盖配色并新增组件样式，
+/* 本版本主题：丰收厨房。在原 style-v2.css 基础上覆盖配色并新增组件样式，
    保留 --green 墨绿描边以和作物图标的画风一致。 */
 :root{--yellow:#FFD9B4;--cream:#FFF7EE;--paper:var(--yellow);--card:var(--cream)}
 .card{box-shadow:0 4px 14px rgba(0,99,72,.05)}

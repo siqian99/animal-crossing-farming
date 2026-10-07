@@ -73,3 +73,10 @@
 .w-remove{position:absolute;top:6px;right:7px;background:var(--yellow);color:var(--green);border:1px solid var(--green);border-radius:50%;width:20px;height:20px;font-size:12px;line-height:1;cursor:pointer;padding:0}
 .w-remove:hover{background:#FFC894}
 #cloth-search{margin-top:8px}
+
+/* 手机端导航横向滑动，四个标签不再挤压换行 */
+@media(max-width:780px){
+  .navigation{display:flex;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:7px}
+  .navigation::-webkit-scrollbar{display:none}
+  .navigation button{flex:none;white-space:nowrap}
+}

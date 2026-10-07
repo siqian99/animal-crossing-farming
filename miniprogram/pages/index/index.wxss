@@ -1,0 +1,59 @@
+/* Page chrome: toolbar row, tab navigation, the seasonal strip with its
+   year-round calendar, dialogs and the first-run guide overlay. Shared
+   component classes (cards, steppers, plan rows, recipe rows) live in
+   app.wxss. Seasonal styles are ported from the web app's style-theme.css
+   with the gold palette from DESIGN.md. */
+
+.page { padding: 14px 16px 26px; }
+
+.tool-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+
+.navigation { display: flex; gap: 7px; padding: 7px; border: 2px solid var(--green); border-radius: 18px; background: var(--cream); margin-bottom: 16px; }
+.nav-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; flex: 1; background: var(--cream); color: var(--green); padding: 9px 2px; border-radius: 11px; font-weight: 750; font-size: 12px; white-space: nowrap; position: relative; }
+.nav-btn.active { background: var(--green); color: var(--cream); }
+.nav-icon { width: 23px; height: 23px; flex: none; }
+.nav-label { line-height: 1.4; }
+.nav-count { position: absolute; top: 5px; right: 9px; font-size: 9px; line-height: 1.5; background: var(--yellow); color: var(--green); padding: 1px 7px; border-radius: 8px; font-weight: 700; }
+
+/* 本月时令条与全年日历 */
+.season-strip { border-top: 1px dashed var(--green); margin-top: 18px; padding-top: 14px; }
+.season-strip .h3 { margin: 0 0 9px; }
+.season-chips { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.season-chip { background: var(--cream); border: 1px solid var(--green); border-radius: 20px; padding: 6px 11px; font-size: 12px; font-weight: 650; color: var(--green); display: inline-flex; align-items: center; }
+.season-chip.last { background: var(--yellow); border-width: 2px; }
+.season-sub { margin-left: 6px; font-size: 10px; }
+.season-chip.back { border-style: dashed; background: transparent; }
+.season-back { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin-top: 7px; }
+.season-note { font-size: 11px; font-weight: 700; }
+
+.calendar-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.cal-cell { background: var(--cream); border: 1px solid var(--green); border-radius: 12px; padding: 9px 8px; min-width: 0; }
+.cal-cell.current { border: 2px solid var(--green); background: var(--yellow); }
+.cal-head { margin: 0 0 7px; font-size: 12px; color: var(--green); font-weight: 700; display: flex; align-items: center; gap: 5px; }
+.cal-now { font-size: 10px; font-weight: 750; background: var(--green); color: var(--cream); border-radius: 8px; padding: 1px 6px; }
+.cal-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.cal-chip { background: #FFFDF4; border: 1px solid var(--green); border-radius: 12px; padding: 2px 7px; font-size: 10px; font-weight: 600; color: var(--green); }
+.cal-none { font-size: 10px; color: var(--green); opacity: .7; }
+
+/* 食材信息弹层 */
+.overlay { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 1000; background: rgba(0, 99, 72, .55); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.overlay-panel { width: 100%; max-width: 440px; max-height: 78vh; overflow: auto; background: var(--cream); border: 3px solid var(--green); border-radius: 24px; padding: 22px; color: var(--green); }
+.dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.close { font-size: 24px; line-height: 1; background: var(--yellow); color: var(--green); border: 1px solid var(--green); border-radius: 50%; width: 34px; height: 34px; flex: none; display: flex; align-items: center; justify-content: center; }
+.info-sub { margin-top: 0; }
+.info-row { display: flex; justify-content: space-between; gap: 14px; font-size: 13px; margin: 9px 0; border-bottom: 1px dashed var(--green); padding-bottom: 8px; }
+.info-key { flex: none; opacity: .75; }
+.info-val { text-align: right; font-weight: 700; word-break: break-all; }
+.overlay-panel .button-row { margin-top: 14px; }
+
+/* 使用指引：绿底步骤卡片（由网页版聚光灯引导简化而来） */
+.guide-panel { width: 100%; max-width: 420px; max-height: 80vh; overflow: auto; padding: 18px 20px; border: 3px solid var(--yellow); border-radius: 20px; background: var(--green); color: var(--cream); }
+.guide-title { font-size: 18px; line-height: 1.45; margin: 12px 0 8px; font-weight: 800; display: block; }
+.guide-text { font-size: 13px; line-height: 1.7; margin: 8px 0 14px; display: block; }
+.guide-panel .hint { color: var(--cream); opacity: .85; font-size: 10px; margin: 10px 0 0; }
+.guide-buttons { display: flex; justify-content: space-between; gap: 10px; }
+.guide-buttons .primary { background: var(--yellow); color: var(--green); border-color: var(--yellow); }
+.guide-buttons .secondary { background: var(--cream); color: var(--green); border-color: var(--cream); }
+.guide-buttons button[disabled] { background: var(--green); color: var(--cream); border: 1px dashed var(--cream); }
+.guide-plan-example { background: var(--cream); color: var(--green); border-radius: 14px; padding: 4px 12px; margin: 10px 0; }
+.guide-plan-example .plan-row { padding: 12px 0; }

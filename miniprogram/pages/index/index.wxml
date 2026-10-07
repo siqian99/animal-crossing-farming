@@ -1,0 +1,365 @@
+<view class="page">
+  <view class="tool-row">
+    <button class="text-button" bindtap="onGoSettings">岛屿设置 ⚙</button>
+    <button class="text-button" bindtap="onGuideReopen">使用指引</button>
+    <button class="text-button" bindtap="onGoAbout">数据与说明</button>
+  </view>
+
+  <view class="navigation">
+    <button wx:for="{{tabs}}" wx:key="id" class="nav-btn {{tab===item.id?'active':''}}" data-tab="{{item.id}}" bindtap="onTabTap">
+      <image class="nav-icon" src="{{tab===item.id?item.activeIcon:item.icon}}" />
+      <text class="nav-label">{{item.label}}</text>
+      <text wx:if="{{item.id==='recipes'}}" class="nav-count">{{item.count}}</text>
+    </button>
+  </view>
+
+  <!-- 库存原料 -->
+  <block wx:if="{{tab==='inventory'}}">
+    <view class="card">
+      <view class="card-heading">
+        <text class="h2">今天收获了多少？</text>
+        <button class="secondary small" bindtap="onClearInventory">一键清空</button>
+      </view>
+      <text class="hint">填写实际数量，剩余原料也会安排出售或保留。</text>
+      <view class="crop-grid">
+        <view class="crop" wx:for="{{crops}}" wx:key="name">
+          <image src="{{item.icon}}" />
+          <text class="crop-label">{{item.zh}}</text>
+          <view class="stepper">
+            <button data-step="-1" data-kind="inventory" data-name="{{item.name}}" bindtap="onStepTap">−</button>
+            <input type="number" data-kind="inventory" data-name="{{item.name}}" value="{{item.value}}" bindinput="onCountInput" />
+            <button data-step="1" data-kind="inventory" data-name="{{item.name}}" bindtap="onStepTap">＋</button>
+          </view>
+        </view>
+      </view>
+
+      <view class="season-strip" wx:if="{{season}}">
+        <text class="h3">{{season.title}}</text>
+        <view class="season-chips">
+          <block wx:if="{{season.chips.length}}">
+            <button wx:for="{{season.chips}}" wx:key="name" class="season-chip {{item.last?'last':''}}" data-item="{{item.name}}" bindtap="onItemTap">
+              <text>{{item.zh}}</text><text wx:if="{{item.last}}" class="season-sub">月末告别</text>
+            </button>
+          </block>
+          <text wx:else class="hint">本月没有限时食材。</text>
+        </view>
+        <view wx:if="{{season.back.length}}" class="season-back">
+          <text class="season-note">下月回归：</text>
+          <button wx:for="{{season.back}}" wx:key="name" class="season-chip back" data-item="{{item.name}}" bindtap="onItemTap">{{item.zh}}</button>
+        </view>
+        <button class="disclosure-summary" bindtap="toggleCalendar">{{showCalendar?'收起全年时令日历':'查看全年时令日历'}}</button>
+        <view wx:if="{{showCalendar}}" class="calendar-grid">
+          <view class="cal-cell {{item.current?'current':''}}" wx:for="{{season.cal}}" wx:key="month">
+            <view class="cal-head"><text>{{item.month}}月</text><text wx:if="{{item.current}}" class="cal-now">本月</text></view>
+            <view class="cal-chips" wx:if="{{item.list.length}}">
+              <button wx:for="{{item.list}}" wx:for-item="fish" wx:key="name" class="cal-chip" data-item="{{fish.name}}" bindtap="onItemTap">{{fish.zh}}</button>
+            </view>
+            <text wx:else class="cal-none">全年可得</text>
+          </view>
+        </view>
+        <text class="hint">点食材看获取方式与季节窗口；半球可在岛屿设置修改。未列出的食材（作物、水果、南瓜、大头菜等）全年可得。</text>
+      </view>
+
+      <view class="extra-section">
+        <text class="h3">其他食材与已加工原料{{extras.length?' · '+extras.length+'种':''}}</text>
+        <view class="extras">
+          <view class="extra-row" wx:for="{{extras}}" wx:key="name">
+            <text class="extra-name" data-item="{{item.name}}" bindtap="onItemTap">{{item.zh}}</text>
+            <input type="number" data-kind="inventory" data-name="{{item.name}}" value="{{item.value}}" bindinput="onCountInput" />
+            <button data-name="{{item.name}}" bindtap="onRemoveExtra" aria-label="移除{{item.zh}}">×</button>
+          </view>
+          <input class="search" placeholder="添加鱼、水果、面粉、竹笋…" value="{{addSearch}}" bindinput="onAddSearchInput" />
+          <view class="add-results">
+            <button wx:for="{{addResults}}" wx:key="name" data-name="{{item.name}}" bindtap="onAddItem">
+              <text>{{item.zh}}</text><text class="add-plus">＋</text>
+            </button>
+          </view>
+        </view>
+      </view>
+
+      <view class="input-footer">
+        <text>已学配方 {{ownedCount}} / 141</text>
+        <button class="text-button" bindtap="onGoRecipes">去勾选配方 →</button>
+      </view>
+
+      <view class="segment">
+        <button class="{{mode==='profit'?'active':''}}" data-mode="profit" bindtap="onModeTap">总收益最高</button>
+        <button class="{{mode==='easy'?'active':''}}" data-mode="easy" bindtap="onModeTap">省制作批次</button>
+      </view>
+      <text wx:if="{{mode==='easy'}}" class="hint">至少保留参考最高总收入的 {{retentionPct}}%，尽量减少制作批次。可在岛屿设置调整。</text>
+
+      <button class="primary full" bindtap="onCalculate">安排这次收成 →</button>
+    </view>
+  </block>
+
+  <!-- 农田分配 -->
+  <block wx:if="{{tab==='farm'}}">
+    <view class="card">
+      <view class="card-heading">
+        <text class="h2">农田种植安排</text>
+        <text class="tag">每轮收获</text>
+      </view>
+      <text class="hint">收益优先，允许只种少数作物。计算包含下方最低株数。</text>
+      <view class="farm-fields">
+        <label class="field">可种植土地 / 格
+          <input type="number" value="{{land}}" bindinput="onLandInput" />
+        </label>
+        <label class="field">每株预计收获 / 个
+          <picker range="{{['1 个','2 个','3 个']}}" value="{{yield-1}}" bindchange="onYieldChange">
+            <view class="picker-box">{{yield}} 个</view>
+          </picker>
+        </label>
+      </view>
+      <text class="hint farm-gap">按每株 1–3 个设置；浇水天数会影响实际产量。</text>
+      <view class="extra-section">
+        <text class="h3">每种至少种多少株？</text>
+        <view class="crop-grid">
+          <view class="crop" wx:for="{{minimumCrops}}" wx:key="name">
+            <image src="{{item.icon}}" />
+            <text class="crop-label">{{item.zh}}</text>
+            <view class="stepper">
+              <button data-step="-1" data-kind="minimum" data-name="{{item.name}}" bindtap="onStepTap">−</button>
+              <input type="number" data-kind="minimum" data-name="{{item.name}}" value="{{item.value}}" bindinput="onCountInput" />
+              <button data-step="1" data-kind="minimum" data-name="{{item.name}}" bindtap="onStepTap">＋</button>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="segment">
+        <button class="{{mode==='profit'?'active':''}}" data-mode="profit" bindtap="onModeTap">总收益最高</button>
+        <button class="{{mode==='easy'?'active':''}}" data-mode="easy" bindtap="onModeTap">省制作批次</button>
+      </view>
+      <text wx:if="{{mode==='easy'}}" class="hint">至少保留参考最高总收入的 {{retentionPct}}%，尽量减少制作批次。可在岛屿设置调整。</text>
+      <button class="primary full" bindtap="onCalculate">规划这片农田 →</button>
+      <text class="hint farm-gap">只计算这轮土地的收成，不加入库存页的材料。销售总额不扣除一次性种苗支出。</text>
+    </view>
+  </block>
+
+  <!-- 结果卡片（库存/农田共享，紧跟输入卡之后） -->
+  <view class="card result-card" wx:if="{{tab!=='recipes'}}">
+    <block wx:if="{{calculating}}">
+      <view class="result-header">
+        <text class="h2">{{calcTitle}}</text>
+        <text class="tag">计算中</text>
+      </view>
+      <view class="progress"><view></view></view>
+      <text class="muted">{{progressText}}</text>
+      <text class="hint">省操作模式还会比较制作批次。数量修改后可重新计算。</text>
+      <button class="secondary small" bindtap="onCancelCalc">取消计算</button>
+    </block>
+
+    <block wx:elif="{{result}}">
+      <view class="result-overview">
+        <view class="result-header">
+          <text class="h2">{{result.title}}</text>
+          <text class="tag">{{result.tag}}</text>
+        </view>
+        <view wx:if="{{result.stale}}" class="snapshot-notice">这份清单按上次计算的食材和设置生成；输入已更改，点“安排”会生成新清单。已有进度仍保留。</view>
+        <text class="result-sub">{{result.subtitle}}</text>
+        <view class="result-total">{{result.total}}<text class="unit">铃钱</text></view>
+        <view class="gain">{{result.gainSub}}</view>
+        <view class="metric-row">
+          <view wx:for="{{result.metrics}}" wx:key="label">
+            <text class="m-label">{{item.label}}</text>
+            <text class="m-value">{{item.value}}</text>
+          </view>
+        </view>
+        <text class="scroll-hint">向下滚动查看制作清单与直接出售安排 ↓</text>
+      </view>
+
+      <view class="result-details">
+        <block wx:if="{{tab==='farm'}}">
+          <text class="h3">植株分配</text>
+          <view class="plant-labels">
+            <view class="plant-chip" wx:for="{{result.plants}}" wx:key="zh">
+              <image src="{{item.icon}}" />{{item.zh}} {{item.count}} 株
+            </view>
+          </view>
+        </block>
+
+        <view class="plan-heading">
+          <text class="h3">{{result.planHeading}}</text>
+          <text wx:if="{{result.planCount}}" class="tag">完成 {{result.finished}}/{{result.planCount}}</text>
+        </view>
+        <text wx:if="{{result.planCount}}" class="hint">打勾表示全部完成；输入已做份数可记录一部分。制作进度自动保存，卖完回来可继续。按钮每次记录一整批，不足一批时请手动填写已做份数。</text>
+
+        <view class="plan-row {{item.status}}" wx:for="{{result.planRows}}" wx:key="id">
+          <button class="todo-check" data-id="{{item.id}}" bindtap="onToggleComplete">{{item.status==='done'?'✓':item.status==='partial'?'−':''}}</button>
+          <view class="plan-body">
+            <view class="plan-top">
+              <view class="plan-name"><text class="number">{{item.index}}</text>{{item.zh}}</view>
+              <text class="plan-qty">× {{item.quantity}}</text>
+            </view>
+            <text class="plan-sub">{{item.countText}}</text>
+            <view wx:if="{{item.usage}}" class="usage">{{item.usage}}</view>
+            <view class="done-controls">
+              <label class="done-input-label">已做
+                <input type="number" data-id="{{item.id}}" value="{{item.doneValue}}" bindblur="onDoneInput" /> / {{item.quantity}} 份
+              </label>
+              <button class="secondary small" data-id="{{item.id}}" disabled="{{!item.canAdd}}" bindtap="onDoneAdd">{{item.batchLabel}}</button>
+              <text class="completion-label">{{item.statusLabel}}</text>
+            </view>
+            <view class="done-meter"><view style="width:{{item.meter}}%"></view></view>
+          </view>
+        </view>
+
+        <view class="leftovers">
+          <text class="h3">直接卖</text>
+          <block wx:if="{{result.direct.length}}">
+            <view class="sell-list">
+              <view wx:for="{{result.direct}}" wx:key="name">
+                <text>{{item.zh}} × {{item.quantity}}{{item.kept?'（保留）':''}}</text>
+                <text class="sell-val">{{item.value}} 铃钱</text>
+              </view>
+            </view>
+            <text class="lp">共 {{result.directTotal}} 铃钱，已计入总收入。</text>
+            <text class="hint">这里含未用于后续料理的加工品。制作清单中的成品料理也要出售，才会获得上方总收入。</text>
+          </block>
+          <text wx:else class="lp">没有余料；做好后的成品料理正常出售。</text>
+        </view>
+
+        <view wx:if="{{result.history.length}}" class="disclosure">
+          <button class="disclosure-summary" bindtap="toggleHistory">{{showHistory?'收起之前的制作清单':'之前的制作清单'}}</button>
+          <view wx:if="{{showHistory}}">
+            <button wx:for="{{result.history}}" wx:key="i" class="secondary small history-button" data-resume="{{item.i}}" bindtap="onResumeTap">{{item.revenue}} 铃钱 · 已完成 {{item.doneCount}}/{{item.total}} 项</button>
+          </view>
+        </view>
+
+        <text class="result-notice">{{result.notice}}</text>
+
+        <view wx:if="{{result.availableCount}}" class="disclosure">
+          <button class="disclosure-summary" bindtap="toggleAvailable">{{showAvailable?'收起单独制作上限':'当前食材可做 ' + result.availableCount + ' 种 · 查看单独制作上限'}}</button>
+          <view wx:if="{{showAvailable}}" class="available-list">
+            <text class="avail-note">每行假设只做该料理，共享同一份库存；这些上限不能相加。</text>
+            <view wx:for="{{result.available}}" wx:key="zh">
+              <text>{{item.zh}}</text><text class="avail-count">最多 {{item.count}} 个</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="result-header">
+        <text class="h2">你的料理清单</text>
+        <text class="tag">{{empty.channelTag}}</text>
+      </view>
+      <view class="empty-state">
+        <view class="empty-illustration"><image src="{{empty.basketIcon}}" /></view>
+        <text class="empty-title">先记收成，再安排料理</text>
+        <text class="empty-text">{{empty.hint}}</text>
+        <button class="secondary" bindtap="onGoRecipes">选择我的料理手册</button>
+      </view>
+      <button wx:if="{{empty.hasResume}}" class="secondary full resume" data-resume="active" bindtap="onResumeTap">继续上次制作清单与进度 →</button>
+      <text wx:if="{{emptyHint}}" class="hint">{{emptyHint}}</text>
+      <view wx:if="{{empty.history.length}}" class="disclosure">
+        <button class="disclosure-summary" bindtap="toggleHistory">{{showHistory?'收起之前的制作清单':'之前的制作清单'}}</button>
+        <view wx:if="{{showHistory}}">
+          <button wx:for="{{empty.history}}" wx:key="i" class="secondary small history-button" data-resume="{{item.i}}" bindtap="onResumeTap">{{item.revenue}} 铃钱 · 已完成 {{item.doneCount}}/{{item.total}} 项</button>
+        </view>
+      </view>
+      <text class="result-notice">{{empty.notice}}</text>
+    </block>
+  </view>
+
+  <!-- 我的料理手册 -->
+  <block wx:if="{{tab==='recipes'}}">
+    <view class="card">
+      <view class="card-heading">
+        <text class="h2">我的料理手册</text>
+        <text class="tag">已学 {{ownedCount}} / 141</text>
+      </view>
+      <view class="collect-progress">
+        <view class="collect-track"><view style="width:{{collectPct}}%"></view></view>
+        <text class="hint collect-pct">{{ownedCount}} / 141 · {{collectPct}}%</text>
+      </view>
+      <text class="hint">勾选已经学会的 DIY。按系列顺序/拼音顺序浏览，也可搜索添加。每次勾选自动保存到本机。</text>
+      <view class="toolbar">
+        <input class="search" placeholder="搜索料理、材料或英文名" value="{{recipeSearch}}" bindinput="onRecipeSearchInput" />
+        <button class="secondary small" bindtap="onAllRecipes">全部标记</button>
+        <button class="text-button" bindtap="onClearRecipes">全部取消</button>
+      </view>
+      <view class="sort-control">
+        <text>配方排序</text>
+        <picker range="{{['系列顺序','拼音顺序']}}" value="{{recipeSort==='name'?1:0}}" bindchange="onSortChange">
+          <view class="picker-box small-picker">{{recipeSort==='name'?'拼音顺序':'系列顺序'}}</view>
+        </picker>
+      </view>
+      <text class="hint">按系列浏览相关料理，或按拼音查找名称。</text>
+      <view class="filter-row">
+        <button wx:for="{{filters}}" wx:key="id" class="{{recipeFilter===item.id?'active':''}}" data-filter="{{item.id}}" bindtap="onFilterTap">{{item.label}}</button>
+      </view>
+      <view class="recipe-list">
+        <label class="recipe {{item.owned?'owned':''}}" wx:for="{{recipeRows}}" wx:key="id">
+          <checkbox value="{{item.id}}" checked="{{item.owned}}" data-id="{{item.id}}" bindchange="onRecipeCheck" />
+          <view class="recipe-body">
+            <view class="recipe-title"><text class="recipe-index">{{item.index}}</text>{{item.zh}}</view>
+            <text class="recipe-sub">{{item.ingredients}}</text>
+            <text class="recipe-sub">{{item.source}}</text>
+          </view>
+          <text class="recipe-price">{{item.price}} / 个</text>
+        </label>
+        <text wx:if="{{!recipeRows.length}}" class="muted">没有找到配方，试试其他名称或材料。</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="footer">
+    <text>非官方爱好者工具</text>
+    <button class="text-button" bindtap="onGoAbout">数据与使用说明</button>
+  </view>
+</view>
+
+<!-- 物品信息弹层 -->
+<view class="overlay" wx:if="{{itemInfo}}" bindtap="onItemInfoClose">
+  <view class="overlay-panel" catchtap="noop">
+    <view class="dialog-heading">
+      <text class="h2">{{itemInfo.title}}</text>
+      <button class="close" bindtap="onItemInfoClose">×</button>
+    </view>
+    <text class="hint info-sub">{{itemInfo.sub}}</text>
+    <view class="info-row" wx:for="{{itemInfo.rows}}" wx:key="k">
+      <text class="info-key">{{item.k}}</text><text class="info-val">{{item.v}}</text>
+    </view>
+    <view wx:if="{{itemInfo.recipe}}" class="info-row">
+      <text class="info-key">加工</text><text class="info-val">{{itemInfo.recipe}}</text>
+    </view>
+    <view class="button-row">
+      <button class="secondary" data-url="https://nookipedia.com/" bindtap="onCopyLink">复制 Nookipedia 链接 ↗</button>
+    </view>
+  </view>
+</view>
+
+<!-- 使用指引浮层 -->
+<view class="overlay guide-overlay" wx:if="{{guide}}" bindtap="closeGuide">
+  <view class="guide-panel" catchtap="noop">
+    <view class="dialog-heading">
+      <text class="tag">使用指引 {{guide.step+1}} / {{guide.count}}</text>
+      <button class="close" bindtap="closeGuide">×</button>
+    </view>
+    <text class="guide-title">{{guide.title}}</text>
+    <text class="guide-text">{{guide.text}}</text>
+    <view wx:if="{{guide.example}}" class="guide-plan-example">
+      <view class="plan-row partial">
+        <text class="todo-check">−</text>
+        <view class="plan-body">
+          <view class="plan-top"><view class="plan-name">面粉</view><text class="plan-qty">× 200</text></view>
+          <text class="plan-sub">后续料理要用 200 份</text>
+          <view class="done-controls"><text>已做 100 / 200 份</text><text class="secondary small">＋100 份</text><text class="completion-label">已做一部分</text></view>
+        </view>
+      </view>
+      <view class="plan-row">
+        <text class="todo-check"></text>
+        <view class="plan-body">
+          <view class="plan-top"><view class="plan-name">面包</view><text class="plan-qty">× 20</text></view>
+          <view class="done-controls"><text>已做 0 / 20 份</text><text class="secondary small">＋10 份</text><text class="completion-label">待制作</text></view>
+        </view>
+      </view>
+    </view>
+    <view class="guide-buttons">
+      <button class="secondary" disabled="{{guide.backDisabled}}" bindtap="onGuideBack">上一步</button>
+      <button class="primary" bindtap="onGuideNext">{{guide.nextLabel}}</button>
+    </view>
+    <text class="hint">随时在顶部「使用指引」重新查看。</text>
+  </view>
+</view>

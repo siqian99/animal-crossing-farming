@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/settings/settings",
+    "pages/about/about"
+  ],
+  "workers": "workers",
+  "window": {
+    "navigationBarBackgroundColor": "#006348",
+    "navigationBarTitleText": "无人岛料理收益管家",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#FFC447",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

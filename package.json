@@ -10,6 +10,9 @@
   },
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "test": "node test-optimizer.cjs"
+    "test": "node test-optimizer.cjs",
+    "test:mp": "node scripts/test-mp-worker.cjs",
+    "check:mp": "node scripts/check-miniprogram.cjs",
+    "sync:mp": "node scripts/sync-shared.mjs"
   }
 }

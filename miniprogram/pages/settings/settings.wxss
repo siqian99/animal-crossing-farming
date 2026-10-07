@@ -1,0 +1,7 @@
+/* 岛屿设置页：web 版设置弹窗的表单样式，控件类复用 app.wxss。 */
+.page { padding: 14px 16px 26px; }
+.intro-note { display: block; margin: 4px 0 8px; }
+.hot-title { margin-top: 20px; }
+.hot-selected { margin-bottom: 10px; }
+.save-button { margin-top: 24px; }
+.save-note { margin-top: 10px; text-align: center; }

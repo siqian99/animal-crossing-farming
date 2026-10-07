@@ -1,0 +1,60 @@
+<view class="page">
+  <view class="card">
+    <view class="card-heading">
+      <text class="h2">岛屿设置</text>
+    </view>
+    <text class="muted intro-note">记录你的出售条件，配方和库存保存在本机。</text>
+
+    <label class="field">出售料理和余料
+      <picker range="{{channelLabels}}" value="{{channelIndex}}" bindchange="onChannelChange">
+        <view class="picker-box">{{channelLabels[channelIndex]}}</view>
+      </picker>
+    </label>
+
+    <label class="field">岛屿半球（影响时令提示）
+      <picker range="{{hemisphereLabels}}" value="{{hemisphereIndex}}" bindchange="onHemisphereChange">
+        <view class="picker-box">{{hemisphereLabels[hemisphereIndex]}}</view>
+      </picker>
+    </label>
+
+    <label class="field">岛屿特产水果
+      <picker range="{{nativeLabels}}" value="{{nativeIndex}}" bindchange="onNativeChange">
+        <view class="picker-box">{{nativeLabels[nativeIndex]}}</view>
+      </picker>
+    </label>
+
+    <text class="h3 hot-title">今日双倍料理</text>
+    <view class="hot-selected">
+      <button wx:if="{{hotChips.length}}" wx:for="{{hotChips}}" wx:key="name" class="hot-chip" data-name="{{item.name}}" bindtap="onHotRemove">
+        {{item.zh}}<text class="hot-x" aria-label="移除">×</text>
+      </button>
+      <text wx:else class="hint">尚未选择双倍料理</text>
+    </view>
+    <input class="search" placeholder="输入料理名，再点选确认" value="{{hotSearch}}" confirm-type="search" bindinput="onHotSearchInput" bindconfirm="onHotConfirm" />
+    <view class="add-results">
+      <button wx:for="{{hotResults}}" wx:key="name" data-name="{{item.name}}" bindtap="onHotAdd">
+        <text>{{item.zh}}</text><text class="add-plus">确认 ＋</text>
+      </button>
+    </view>
+    <text class="hint">可确认多个料理。仅店内享受今日双倍，按普通条例价格计算。</text>
+
+    <label class="field">库存里的鱼可卖给俞司廷，或愿意等他上岛
+      <picker range="{{cjLabels}}" value="{{cjIndex}}" bindchange="onCjChange">
+        <view class="picker-box">{{cjLabels[cjIndex]}}</view>
+      </picker>
+    </label>
+
+    <label class="field">大头菜当前每个出售报价
+      <input type="number" value="{{turnipPrice}}" bindinput="onTurnipInput" />
+    </label>
+
+    <label class="field">省操作时，至少保留最高总收入
+      <picker range="{{retentionLabels}}" value="{{retentionIndex}}" bindchange="onRetentionChange">
+        <view class="picker-box">{{retentionLabels[retentionIndex]}}</view>
+      </picker>
+    </label>
+
+    <button class="primary full save-button" bindtap="onSave">保存设置</button>
+    <text class="hint save-note">保存后首页的既有计算结果会标记为需要重新计算。</text>
+  </view>
+</view>

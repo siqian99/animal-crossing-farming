@@ -1,0 +1,7 @@
+/* 数据与使用说明页：静态说明文案与复制按钮。 */
+.page { padding: 14px 16px 26px; }
+.about-text { font-size: 13px; line-height: 1.8; display: block; margin: 4px 0 10px; }
+.card .h3 { margin-top: 18px; }
+.card .h3.first { margin-top: 0; }
+.copy-button { margin: 2px 0 6px; }
+.disclaimer { text-align: center; }

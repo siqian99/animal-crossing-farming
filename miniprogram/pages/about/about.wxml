@@ -1,0 +1,25 @@
+<view class="page">
+  <view class="card">
+    <view class="card-heading">
+      <text class="h2">数据与使用说明</text>
+    </view>
+
+    <text class="h3 first">关于本工具</text>
+    <text class="about-text">感谢原作者 Vickie 的开源项目 acnh-cooking-profit。本版本基于它修改：新增本月时令速览、食材图鉴与 Nookipedia 深链，并更换为丰收厨房主题与原创图标。</text>
+    <button class="secondary small copy-button" data-url="https://github.com/VickieZhou/acnh-cooking-profit" bindtap="onCopy">复制原项目链接 ↗</button>
+
+    <text class="h3">数据来源与核验</text>
+    <text class="about-text">配方与价格数据已全部逐条核验自 Nookipedia：141 个配方已全部逐条核对 Nookipedia 售价，点食材名可复制资料链接。包含 141 个配方，游戏版本：Ver. 3.0.3，计算仅覆盖料理。</text>
+    <button class="secondary small copy-button" data-url="https://nookipedia.com/" bindtap="onCopy">复制 Nookipedia 链接 ↗</button>
+
+    <text class="h3">怎么用</text>
+    <text class="about-text">先在「我的料理手册」勾选已学会的料理，再回到「库存原料」填写收成并计算最优安排；「农田分配」回答这片地种什么最赚钱。制作清单可打勾记录进度，本机自动保存。首次使用可回到首页顶部打开「使用指引」。</text>
+
+    <text class="h3">反馈与联系</text>
+    <text class="about-text">报告配方或售价问题时，请提供料理名称、游戏版本、出售条件及实际数据；请勿公开个人备份文件。</text>
+    <button class="secondary small copy-button" data-url="https://github.com/siqian99/animal-crossing-farming/issues" bindtap="onCopy">复制 Issue 反馈链接 ↗</button>
+    <button class="secondary small copy-button" data-url="zhouyy0113@126.com" data-hint="邮箱已复制" bindtap="onCopy">复制反馈邮箱 ↗</button>
+
+    <text class="hint disclaimer">非官方爱好者工具，仅供参考，与 Nintendo 无关。</text>
+  </view>
+</view>

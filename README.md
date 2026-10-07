@@ -49,6 +49,16 @@
 
 「全部取消」已学配方前需要确认。其他食材与已加工原料、每种作物最低株数均直接显示，无需展开。
 
+## 微信小程序版
+
+仓库另含一个功能对等的微信小程序版（`miniprogram/` 目录，原生小程序框架，无构建链），与网页版共享同一套计算与数据逻辑，个人记录两端的 JSON 备份可互通。
+
+- **开发**：用微信开发者工具打开 `miniprogram/` 目录即可（开发阶段可用「不使用 AppID」的游客模式）；要求基础库 ≥ 2.15.0（Worker 内 WASM）。
+- **同步共享逻辑**：`npm run sync:mp` —— 把 `dist/data.js`、`dist/optimizer.js`、`dist/vendor/highs.js` 等复制到小程序目录，并将 `highs.wasm` 压缩为 `assets/highs.wasm.br`（约 826KB，主包总计约 1.2MB，低于 2MB 限制）。
+- **验证**：`npm run test:mp`（Worker 桥接与求解冒烟测试）、`npm run check:mp`（目录结构与体积检查），另有 `npm test` 覆盖共享算法本身。
+
+双端同步更新流程：修改 `dist/` 中的共享逻辑（数据、算法、进度）→ 运行 `npm run sync:mp` → 分别验证网页版（`npm test`）与小程序版（`test:mp` + 开发者工具）。仅页面/样式相关的改动则在各自目录内进行。
+
 ## 下载与本地运行
 
 下载仓库：点击 **Code → Download ZIP** 并解压，或使用 Git：
@@ -87,7 +97,12 @@ dist/                    网页文件与前端源码
   progress.js            制作进度与备份校验
   sw.js                  离线缓存
   vendor/                HiGHS JS/WASM
-scripts/                 本地运行与打包脚本
+miniprogram/             微信小程序版（原生框架，无构建链）
+  pages/                 index 主页 / settings 岛屿设置 / about 说明
+  workers/solver/        Worker 求解器（WXWebAssembly 桥接 + 纯 JS 降级）
+  utils/                 store 状态层 / icons 图标 / 共享逻辑副本
+  assets/highs.wasm.br  brotli 压缩的 WASM（sync:mp 生成）
+scripts/                 本地运行、同步与检查脚本
 docs/                    算法与数据来源
 licenses/                第三方许可证
 test-optimizer.cjs       计算验证

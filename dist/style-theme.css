@@ -53,3 +53,23 @@
   main{padding-bottom:92px}
   #toast{bottom:88px}
 }
+
+/* 村民衣橱 */
+#wardrobe-detail{display:block;overflow:auto}
+.villager-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.villager-row{display:flex;align-items:center;gap:10px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;text-align:left;font:inherit;color:inherit;min-width:0}
+.villager-row:hover{background:#FFF0DD}
+.villager-row.active{border:2px solid var(--green);background:#FFF0DD}
+.v-name{display:flex;flex-direction:column;min-width:0;flex:1;font-weight:700;color:var(--green);font-size:13px}
+.v-name small{font-weight:500;color:var(--muted);font-size:10px}
+.v-meta{flex:none;font-size:11px;color:var(--muted)}
+.v-count{flex:none;font-size:12px;color:var(--green)}
+.add-results button small{color:var(--muted);font-weight:500;margin-left:6px;font-size:11px}
+.wardrobe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:12px 0}
+.wardrobe-item{position:relative;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:8px 30px 8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.w-name{font-size:13px;font-weight:700;color:var(--green);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.w-name small{display:block;font-weight:500;color:var(--muted);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.w-meta{font-size:11px;color:var(--muted)}
+.w-remove{position:absolute;top:6px;right:7px;background:var(--yellow);color:var(--green);border:1px solid var(--green);border-radius:50%;width:20px;height:20px;font-size:12px;line-height:1;cursor:pointer;padding:0}
+.w-remove:hover{background:#FFC894}
+#cloth-search{margin-top:8px}
